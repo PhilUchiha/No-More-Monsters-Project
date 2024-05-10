@@ -506,10 +506,19 @@ public class GameController : MonoBehaviour
         data.FullReset();
     }
 
+    public float period = 0.0f;
     public void Update()
     {
         goldText.text = Notation(data.Gold) + " G";
         RunUs();
+
+        if (period > 10.0f)
+            {
+                data.SavePlayer();
+                Debug.Log("saved");
+                period = 0;
+            }
+        period += UnityEngine.Time.deltaTime;
     }
 
 }
