@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public class Data
@@ -167,29 +168,41 @@ public class Data
     {
         Gold = 5;
 
+        u1Level = 0;
         u1TimeCap = 1;
         u1Timer = 0;
         u1Mult = 1;
-        
+        u1Auto = false;
+
+        u2Level = 0;     
         u2TimeCap = 4;
         u2Timer = 0;
         u2Mult = 1;
+        u2Auto = false;
         
         u3TimeCap = 15;
         u3Timer = 0;
         u3Mult = 1;
+        u3Level = 0;
+        u3Auto = false;
 
         u4TimeCap = 30;
         u4Timer = 0;
         u4Mult = 1;
+        u4Level = 0;
+        u4Auto = false;
 
         u5TimeCap = 45;
         u5Timer = 0;
         u5Mult = 1;
+        u5Level = 0;
+        u5Auto = false;
 
         u6TimeCap = 60;
         u6Timer = 0;
         u6Mult = 1;
+        u6Level = 0;
+        u6Auto = false;
     }
     public void SavePlayer ()
     {
@@ -231,6 +244,8 @@ public class Data
 public class GameController : MonoBehaviour
 {
     public Animator anim;
+
+    public CanvasController canvascontroller;
 
     public Data data;
     public TMP_Text goldText;
@@ -280,12 +295,12 @@ public class GameController : MonoBehaviour
 
     public void RunUs()
     {
-        RunU(1, "Kill Slime", u1TitleText, u1CostText, u1ProductionText, u1PercentText, u1Fill, data.u1Level, data.u1Cost, data.u1Power, data.u1Mult, ref data.u1Timer, data.u1TimeCap, data.u1Auto);
-        RunU(2, "Kill Goblin", u2TitleText, u2CostText, u2ProductionText, u2PercentText, u2Fill, data.u2Level, data.u2Cost, data.u2Power, data.u2Mult, ref data.u2Timer, data.u2TimeCap, data.u2Auto);
-        RunU(3, "Kill Troll", u3TitleText, u3CostText, u3ProductionText, u3PercentText, u3Fill, data.u3Level, data.u3Cost, data.u3Power, data.u3Mult, ref data.u3Timer, data.u3TimeCap, data.u3Auto);
-        RunU(4, "Kill Cyclops", u4TitleText, u4CostText, u4ProductionText, u4PercentText, u4Fill, data.u4Level, data.u4Cost, data.u4Power, data.u4Mult, ref data.u4Timer, data.u4TimeCap, data.u4Auto);
-        RunU(5, "Kill Harpy", u5TitleText, u5CostText, u5ProductionText, u5PercentText, u5Fill, data.u5Level, data.u5Cost, data.u5Power, data.u5Mult, ref data.u5Timer, data.u5TimeCap, data.u5Auto);
-        RunU(6, "Kill Minotaur", u6TitleText, u6CostText, u6ProductionText, u6PercentText, u6Fill, data.u6Level, data.u6Cost, data.u6Power, data.u6Mult, ref data.u6Timer, data.u6TimeCap, data.u6Auto);
+        RunU(1, "Kill Blue Slime", u1TitleText, u1CostText, u1ProductionText, u1PercentText, u1Fill, data.u1Level, data.u1Cost, data.u1Power, data.u1Mult, ref data.u1Timer, data.u1TimeCap, data.u1Auto);
+        RunU(2, "Kill Sewer Rat", u2TitleText, u2CostText, u2ProductionText, u2PercentText, u2Fill, data.u2Level, data.u2Cost, data.u2Power, data.u2Mult, ref data.u2Timer, data.u2TimeCap, data.u2Auto);
+        RunU(3, "Kill Scorpion", u3TitleText, u3CostText, u3ProductionText, u3PercentText, u3Fill, data.u3Level, data.u3Cost, data.u3Power, data.u3Mult, ref data.u3Timer, data.u3TimeCap, data.u3Auto);
+        RunU(4, "Kill Giant Spider", u4TitleText, u4CostText, u4ProductionText, u4PercentText, u4Fill, data.u4Level, data.u4Cost, data.u4Power, data.u4Mult, ref data.u4Timer, data.u4TimeCap, data.u4Auto);
+        RunU(5, "Kill Dark Wolf", u5TitleText, u5CostText, u5ProductionText, u5PercentText, u5Fill, data.u5Level, data.u5Cost, data.u5Power, data.u5Mult, ref data.u5Timer, data.u5TimeCap, data.u5Auto);
+        RunU(6, "Kill Skeleton", u6TitleText, u6CostText, u6ProductionText, u6PercentText, u6Fill, data.u6Level, data.u6Cost, data.u6Power, data.u6Mult, ref data.u6Timer, data.u6TimeCap, data.u6Auto);
     }
 
     public void RunU( int id, string title, TMP_Text titleT, TMP_Text costT, TMP_Text prod, TMP_Text per, Image fill, double level, double cost, double power, double mult, ref float timer, float timeCap, bool auto)
@@ -449,6 +464,11 @@ public class GameController : MonoBehaviour
     public void Load(){
         data.LoadPlayer();
     }
+    public void SaveAndQuit()
+    {
+        data.SavePlayer();
+        SceneManager.LoadScene("MainMenu");
+    }
 
     public void BuyAuto1(){
         if(data.Gold >= 100 && hasRun1 == false)
@@ -456,6 +476,7 @@ public class GameController : MonoBehaviour
         data.Gold -= 100;
         data.u1Auto = true;
         hasRun1 = true;
+        canvascontroller.autoBought1();
         }
     }
     public void BuyAuto2(){
@@ -464,6 +485,7 @@ public class GameController : MonoBehaviour
         data.Gold -= 800;
         data.u2Auto = true;
         hasRun2 = true;
+        canvascontroller.autoBought2();
         }
     }
     public void BuyAuto3(){
@@ -472,6 +494,7 @@ public class GameController : MonoBehaviour
         data.Gold -= 2000;
         data.u3Auto = true;
         hasRun3 = true;
+        canvascontroller.autoBought3();
         }
     }
     public void BuyAuto4(){
@@ -480,6 +503,7 @@ public class GameController : MonoBehaviour
         data.Gold -= 5000;
         data.u4Auto = true;
         hasRun4 = true;
+        canvascontroller.autoBought4();
         }
     }
     public void BuyAuto5(){
@@ -488,6 +512,7 @@ public class GameController : MonoBehaviour
         data.Gold -= 10000;
         data.u5Auto = true;
         hasRun5 = true;
+        canvascontroller.autoBought5();
         }
     }
     public void BuyAuto6(){
@@ -496,13 +521,13 @@ public class GameController : MonoBehaviour
         data.Gold -= 30000;
         data.u6Auto = true;
         hasRun6 = true;
+        canvascontroller.autoBought6();
         }
     }
 
 
-    public void start()
+    public void Reset()
     {
-        Debug.Log("working");
         data.FullReset();
     }
 
