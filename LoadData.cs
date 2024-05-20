@@ -10,6 +10,7 @@ public class LoadData : MonoBehaviour
     void Start()
     {
         gameController.data.LoadPlayer();
+       // gameController.data.LoadSettings();
     }
 
 }

@@ -25,6 +25,7 @@ public class Data
     public float u1Timer;
     public float u1TimeCap;
     public double u1Mult;
+    public bool hasRun1;
     public double u1Power
     {
     
@@ -49,6 +50,7 @@ public class Data
     public float u2Timer;
     public float u2TimeCap;
     public double u2Mult;
+    public bool hasRun2;
     public double u2Power
     {
     
@@ -73,6 +75,7 @@ public class Data
     public float u3Timer;
     public float u3TimeCap;
     public double u3Mult;
+    public bool hasRun3;
     public double u3Power
     {
     
@@ -97,6 +100,7 @@ public class Data
     public float u4Timer;
     public float u4TimeCap;
     public double u4Mult;
+    public bool hasRun4;
     public double u4Power
     {
     
@@ -122,6 +126,7 @@ public class Data
     public float u5Timer;
     public float u5TimeCap;
     public double u5Mult;
+    public bool hasRun5;
     public double u5Power
     {
     
@@ -147,6 +152,7 @@ public class Data
     public float u6Timer;
     public float u6TimeCap;
     public double u6Mult;
+    public bool hasRun6;
     public double u6Power
     {
     
@@ -216,29 +222,44 @@ public class Data
          u1Level = load.u1Level;
          u1Mult = load.u1Mult;
          u1Auto = load.u1Auto;
+         hasRun1 = load.hasRun1;
 
          u2Level = load.u2Level;
          u2Mult = load.u2Mult;
          u2Auto = load.u2Auto;
+         hasRun1 = load.hasRun2;
 
          u3Level = load.u3Level;
          u3Mult = load.u3Mult;
          u3Auto = load.u3Auto;
+         hasRun1 = load.hasRun3;
 
          u4Level = load.u4Level;
          u4Mult = load.u4Mult;
          u4Auto = load.u4Auto;
+         hasRun1 = load.hasRun4;
 
          u5Level = load.u5Level;
          u5Mult = load.u5Mult;
          u5Auto = load.u5Auto;
+         hasRun1 = load.hasRun5;
 
          u6Level = load.u6Level;
          u6Mult = load.u6Mult;
          u6Auto = load.u6Auto;
+         hasRun1 = load.hasRun6;
 
     }
+/*
+    public void LoadSettings()
+    {
+        GameSettings load = SaveSystem.LoadGame();
 
+        settingsMenu.SetVolume(load.volume);
+        settingsMenu.SetFullScreen(load.isFullScreen);
+        settingsMenu.SetQuality(load.qualityIndex);
+    }
+*/
 }
 
 public class GameController : MonoBehaviour
@@ -246,6 +267,9 @@ public class GameController : MonoBehaviour
     public Animator anim;
 
     public CanvasController canvascontroller;
+    public SoundEffects soundEffects;
+
+    string[] animations = new string[] {"Attack", "HeroKnight_Attack2", "HeroKnight_Attack3"};
 
     public Data data;
     public TMP_Text goldText;
@@ -255,42 +279,36 @@ public class GameController : MonoBehaviour
     public TMP_Text u1ProductionText;
     public TMP_Text u1PercentText;
     public Image u1Fill;
-    public bool hasRun1;
 
     public TMP_Text u2TitleText;
     public TMP_Text u2CostText;
     public TMP_Text u2ProductionText;
     public TMP_Text u2PercentText;
     public Image u2Fill;
-    public bool hasRun2;
 
     public TMP_Text u3TitleText;
     public TMP_Text u3CostText;
     public TMP_Text u3ProductionText;
     public TMP_Text u3PercentText;
     public Image u3Fill;
-    public bool hasRun3;
 
     public TMP_Text u4TitleText;
     public TMP_Text u4CostText;
     public TMP_Text u4ProductionText;
     public TMP_Text u4PercentText;
     public Image u4Fill;
-    public bool hasRun4;
 
     public TMP_Text u5TitleText;
     public TMP_Text u5CostText;
     public TMP_Text u5ProductionText;
     public TMP_Text u5PercentText;
     public Image u5Fill;
-    public bool hasRun5;
 
     public TMP_Text u6TitleText;
     public TMP_Text u6CostText;
     public TMP_Text u6ProductionText;
     public TMP_Text u6PercentText;
     public Image u6Fill;
-    public bool hasRun6;
     
 
     public void RunUs()
@@ -350,7 +368,8 @@ public class GameController : MonoBehaviour
         {
             data.Gold += power;
             timer = 0;
-            anim.Play("Attack");
+
+            anim.Play(animations[UnityEngine.Random.Range(0, 3)]);
         }
     }
 
@@ -384,7 +403,7 @@ public class GameController : MonoBehaviour
         {
             data.Gold -= cost;
             level += 1;
-
+                soundEffects.buy();
             if (level == 10)
                 mult *= 2;
             if (level == 25)
@@ -416,6 +435,7 @@ public class GameController : MonoBehaviour
         {
             k += n;
             data.Gold -= cost;
+            soundEffects.buy();
         }
 
     }
@@ -429,32 +449,6 @@ public class GameController : MonoBehaviour
         return result;
     }
     else
-
-        /*
-    private int bSize = 10000 ;
-    private int mSize = 100 ;
-    private int kSize = 1 ;
-        String result;
-
-
-        float bScore = System.Mathf.Floor (number / bSize);
-        float mScore = System.Mathf.Floor ((number - bScore * bSize) / mSize);
-        float kScore = System.Mathf.Floor ((number - mScore * mSize - bScore * bSize) / kSize);
- 
-        scoreString = bScore.ToString() + "G ;" + mScore.ToString() + "S ;" + kScore.ToString() + "B" ;
-        return result;
-
-            /*
-        if (x > 1000)
-        {
-            var exponent = System.Math.Floor(System.Math.Log10(System.Math.Abs(x)));
-            var mantissa = x / System.Math.Pow(10, exponent);
-            result = mantissa.ToString("F2") + "e" + exponent;
-        }
-        else    
-            result = x.ToString("F2");
-            return result;
-            */
             return result;
     }
    
@@ -471,57 +465,57 @@ public class GameController : MonoBehaviour
     }
 
     public void BuyAuto1(){
-        if(data.Gold >= 100 && hasRun1 == false)
+        if(data.Gold >= 100 && data.u1Auto == false)
         {
         data.Gold -= 100;
         data.u1Auto = true;
-        hasRun1 = true;
         canvascontroller.autoBought1();
+        soundEffects.buy();
         }
     }
     public void BuyAuto2(){
-        if(data.Gold >= 800 && hasRun2 == false)
+        if(data.Gold >= 800 && data.u2Auto == false)
         {
         data.Gold -= 800;
         data.u2Auto = true;
-        hasRun2 = true;
         canvascontroller.autoBought2();
+        soundEffects.buy();
         }
     }
     public void BuyAuto3(){
-        if(data.Gold >= 2000 && hasRun3 == false)
+        if(data.Gold >= 2000 && data.u3Auto == false)
         {
         data.Gold -= 2000;
         data.u3Auto = true;
-        hasRun3 = true;
         canvascontroller.autoBought3();
+        soundEffects.buy();
         }
     }
     public void BuyAuto4(){
-        if(data.Gold >= 5000 && hasRun4 == false)
+        if(data.Gold >= 5000 && data.u4Auto == false)
         {
         data.Gold -= 5000;
         data.u4Auto = true;
-        hasRun4 = true;
         canvascontroller.autoBought4();
+        soundEffects.buy();
         }
     }
     public void BuyAuto5(){
-        if(data.Gold >= 10000 && hasRun5 == false)
+        if(data.Gold >= 10000 && data.u5Auto == false)
         {
         data.Gold -= 10000;
         data.u5Auto = true;
-        hasRun5 = true;
         canvascontroller.autoBought5();
+        soundEffects.buy();
         }
     }
     public void BuyAuto6(){
-        if(data.Gold >= 30000 && hasRun6 == false)
+        if(data.Gold >= 30000 && data.u6Auto == false)
         {
         data.Gold -= 30000;
         data.u6Auto = true;
-        hasRun6 = true;
         canvascontroller.autoBought6();
+        soundEffects.buy();
         }
     }
 

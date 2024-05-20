@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class ChangeScene : MonoBehaviour
 {
+    public AudioSource audioSource;
+
     public void StartGame(){
         SceneManager.LoadScene("ClickerGameplay");
     }
@@ -16,5 +18,6 @@ public class ChangeScene : MonoBehaviour
     }
     public void QuitGame(){
         Application.Quit();
+        audioSource.Play();
     }
 }
