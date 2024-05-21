@@ -11,6 +11,8 @@ public class Data
 {
 
     public double Gold;
+    public double Gems;
+
 
 #region U1
     //upgrade1
@@ -218,6 +220,7 @@ public class Data
     {
         GameData load = SaveSystem.LoadGame();
          Gold = load.gold;
+
 
          u1Level = load.u1Level;
          u1Mult = load.u1Mult;
@@ -458,10 +461,17 @@ public class GameController : MonoBehaviour
     public void Load(){
         data.LoadPlayer();
     }
-    public void SaveAndQuit()
-    {
+    public void SaveAndQuit(){
         data.SavePlayer();
         SceneManager.LoadScene("MainMenu");
+    }
+    public void LevelUp(){
+        data.SavePlayer();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    public void LevelDown(){
+        data.SavePlayer();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
     public void BuyAuto1(){

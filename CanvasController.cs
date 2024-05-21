@@ -7,19 +7,15 @@ public class CanvasController : MonoBehaviour
     public GameObject canvasAutoStore;
     public GameController gameController;
 
-
     public GameObject AutoBought1;
     public GameObject AutoBought2;
     public GameObject AutoBought3;
     public GameObject AutoBought4;
     public GameObject AutoBought5;
     public GameObject AutoBought6;
-
     
 
-
-
-
+    
     // Start is called before the first frame update
     void Start()
     {

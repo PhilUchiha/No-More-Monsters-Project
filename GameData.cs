@@ -6,6 +6,8 @@ using UnityEngine;
 public class GameData
 {    
     public double gold;
+    public double gems;
+
 
     public double u1Level;
     public double u1Mult;
@@ -48,6 +50,7 @@ public class GameData
     public GameData (Data game)
     {
         gold = game.Gold;
+        gems = game.Gems;
 
         u1Level = game.u1Level;
         u1Mult = game.u1Mult;
