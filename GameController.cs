@@ -335,12 +335,54 @@ public class GameController : MonoBehaviour
         if(level != 0)
              if (timer < timeCap) timer += Time.deltaTime * (float)mult;
             else if (auto)
-                CollectU(id);
+                CollectAuto(id);
             else
                 timer = timeCap;
     }
 
     public void CollectU(int id)
+    {
+        switch (id)
+        {
+            case 1:
+                if(data.u1Timer >= data.u1TimeCap){
+                    soundEffects.KillSlime();
+                }
+                Collect(ref data.u1Timer, data.u1TimeCap, data.u1Power);
+            break;
+            case 2:
+                if(data.u2Timer >= data.u2TimeCap){
+                    soundEffects.KillRat();
+                }
+                Collect(ref data.u2Timer, data.u2TimeCap, data.u2Power);
+            break;
+            case 3:
+                if(data.u3Timer >= data.u3TimeCap){
+                    soundEffects.KillScorpion();
+                }
+                Collect(ref data.u3Timer, data.u3TimeCap, data.u3Power);
+            break;
+            case 4:
+                if(data.u4Timer >= data.u4TimeCap){
+                    soundEffects.KillSpider();
+                }
+                Collect(ref data.u4Timer, data.u4TimeCap, data.u4Power);
+            break;
+            case 5:
+                if(data.u5Timer >= data.u5TimeCap){
+                    soundEffects.KillWolf();            
+                    }
+                Collect(ref data.u5Timer, data.u5TimeCap, data.u5Power);
+            break;
+            case 6:
+                if(data.u6Timer >= data.u6TimeCap){
+                    soundEffects.KillSkeleton();            
+                    }
+                Collect(ref data.u6Timer, data.u6TimeCap, data.u6Power);
+            break;
+        }
+    }
+    public void CollectAuto(int id)
     {
         switch (id)
         {
@@ -375,6 +417,7 @@ public class GameController : MonoBehaviour
             anim.Play(animations[UnityEngine.Random.Range(0, 3)]);
         }
     }
+
 
     public void BuyU(int id)
     {
@@ -419,9 +462,9 @@ public class GameController : MonoBehaviour
 
     public void BuyMaxAll()
     {
-        BuyMaxU(18750, 1.40, ref data.u6Level);
-        BuyMaxU(18750, 1.35, ref data.u5Level);
-        BuyMaxU(18750, 1.30, ref data.u4Level);
+        BuyMaxU(1000000, 1.40, ref data.u6Level);
+        BuyMaxU(100000, 1.35, ref data.u5Level);
+        BuyMaxU(50000, 1.30, ref data.u4Level);
         BuyMaxU(18750, 1.25, ref data.u3Level);
         BuyMaxU(250, 1.20, ref data.u2Level);
         BuyMaxU(5, 1.15, ref data.u1Level);
@@ -493,36 +536,36 @@ public class GameController : MonoBehaviour
         }
     }
     public void BuyAuto3(){
-        if(data.Gold >= 2000 && data.u3Auto == false)
+        if(data.Gold >= 25000 && data.u3Auto == false)
         {
-        data.Gold -= 2000;
+        data.Gold -= 25000;
         data.u3Auto = true;
         canvascontroller.autoBought3();
         soundEffects.buy();
         }
     }
     public void BuyAuto4(){
-        if(data.Gold >= 5000 && data.u4Auto == false)
+        if(data.Gold >= 90000 && data.u4Auto == false)
         {
-        data.Gold -= 5000;
+        data.Gold -= 90000;
         data.u4Auto = true;
         canvascontroller.autoBought4();
         soundEffects.buy();
         }
     }
     public void BuyAuto5(){
-        if(data.Gold >= 10000 && data.u5Auto == false)
+        if(data.Gold >= 300000 && data.u5Auto == false)
         {
-        data.Gold -= 10000;
+        data.Gold -= 300000;
         data.u5Auto = true;
         canvascontroller.autoBought5();
         soundEffects.buy();
         }
     }
     public void BuyAuto6(){
-        if(data.Gold >= 30000 && data.u6Auto == false)
+        if(data.Gold >= 2000000 && data.u6Auto == false)
         {
-        data.Gold -= 30000;
+        data.Gold -= 2000000;
         data.u6Auto = true;
         canvascontroller.autoBought6();
         soundEffects.buy();
